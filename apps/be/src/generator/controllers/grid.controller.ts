@@ -9,9 +9,10 @@ export class GridController {
     }
 
     getGrid = (req: Request, res: Response): void => {
-        const grid = this.gridService.generateGrid();
-
+        const biasChar = req.query.biasChar ? (req.query.biasChar as string).toLowerCase() : undefined;
         const withCode = req.query.withCode === 'true';
+
+        const grid = this.gridService.generateGrid(biasChar);
 
         if (withCode) {
             const code = this.gridService.computeCode(grid);

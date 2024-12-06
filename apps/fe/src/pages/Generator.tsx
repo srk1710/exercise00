@@ -6,13 +6,35 @@ export const GeneratorPage = () => {
     const [grid, setGrid] = useState<string[][] | null>(null);
     const [code, setCode] = useState<string | null>(null);
     const [isGenerating, setIsGenerating] = useState(false);
+    const [biasChar, setBiasChar] = useState<string>("");
+    const [isInputLocked, setIsInputLocked] = useState(false);
+    const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
+
+    const handleBiasCharChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const newBiasChar = e.target.value.toLowerCase();
+
+        if (!isInputLocked) {
+            setBiasChar(newBiasChar);
+            if (newBiasChar) {
+                setIsInputLocked(true);
+
+                const newTimeoutId = setTimeout(() => {
+                    setIsInputLocked(false);
+                    setTimeoutId(null);
+                }, 4000);
+
+                setTimeoutId(newTimeoutId);
+            }
+        }
+    };
+
 
     useEffect(() => {
         let interval: NodeJS.Timeout | null = null;
         let secondCounter = 0;
 
         if (isGenerating) {
-            fetchGrid(true)
+            fetchGrid(true, biasChar)
                 .then((data) => {
                     setGrid(data.grid);
                     setCode(data.code);
@@ -22,14 +44,14 @@ export const GeneratorPage = () => {
             interval = setInterval(() => {
                 secondCounter++;
                 if (secondCounter % 2 === 0) {
-                    fetchGrid(true)
+                    fetchGrid(true, biasChar)
                         .then((data) => {
                             setGrid(data.grid);
                             setCode(data.code);
                         })
                         .catch((error) => console.error(error));
                 } else {
-                    fetchGrid(false)
+                    fetchGrid(false, biasChar)
                         .then((data) => {
                             setGrid(data.grid);
                         })
@@ -40,8 +62,9 @@ export const GeneratorPage = () => {
 
         return () => {
             if (interval) clearInterval(interval);
+            if (timeoutId) clearTimeout(timeoutId);
         };
-    }, [isGenerating]);
+    }, [isGenerating, biasChar]);
 
     const emptyGrid = Array.from({ length: 10 }, () =>
         Array.from({ length: 10 }, () => "")
@@ -52,9 +75,25 @@ export const GeneratorPage = () => {
     return (
         <div style={styles.page}>
             <div style={styles.gridWrapper}>
-                <button style={styles.button} onClick={() => setIsGenerating(!isGenerating)}>
-                    {isGenerating ? "Stop Generating" : "Generate 2D Grid"}
-                </button>
+                <div style={styles.controls}>
+                    <div style={styles.inputWrapper}>
+                        <label style={styles.label}>Character:</label>
+                        <input
+                            type="text"
+                            value={biasChar}
+                            maxLength={1}
+                            onChange={handleBiasCharChange}
+                            placeholder="Character"
+                            style={styles.input}
+                            disabled={isInputLocked}
+                        />
+                    </div>
+
+                    <button style={styles.button} onClick={() => setIsGenerating(!isGenerating)}>
+                        {isGenerating ? "Stop Generating" : "Generate 2D Grid"}
+                    </button>
+                </div>
+
                 <div style={styles.gridContainer}>
                     <table style={styles.grid}>
                         <tbody>
@@ -76,9 +115,9 @@ export const GeneratorPage = () => {
             </div>
         </div>
     );
+
 };
 
-// Styles
 const styles = {
     page: {
         display: "flex",
@@ -94,10 +133,14 @@ const styles = {
         flexDirection: "column" as const,
         alignItems: "center",
     },
+    controls: {
+        display: "flex",
+        alignItems: "end",
+        marginBottom: "20px",
+        justifyContent: "space-between",
+        width: "100%",
+    },
     button: {
-        position: "absolute" as const,
-        top: "-50px",
-        right: "0",
         padding: "10px 20px",
         fontSize: "16px",
         cursor: "pointer",
@@ -105,7 +148,19 @@ const styles = {
         color: "white",
         border: "none",
         borderRadius: "5px",
-        zIndex: 1,
+    },
+    inputWrapper: {
+        display: "flex",
+        flexDirection: "column" as const,
+    },
+    label: {
+        marginBottom: "5px",
+        fontSize: "16px",
+    },
+    input: {
+        padding: "5px 10px",
+        fontSize: "16px",
+        width: "100px",
     },
     gridContainer: {
         display: "flex",
@@ -133,3 +188,4 @@ const styles = {
         color: "#333",
     },
 };
+

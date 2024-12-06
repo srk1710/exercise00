@@ -1,16 +1,23 @@
 export class GridService {
     private gridSize = 10;
 
-    private reduceToSingleDigit(num: number) {
-        return (num > 9 ? Math.floor(num / 2) : num);
+    private isValidBiasChar(biasChar: string): boolean {
+        return /^[a-z]$/.test(biasChar);
+    }
+
+    private reduceToSingleDigit(num: number): number {
+        while (num > 9) {
+            num = Math.floor(num / 2);
+        }
+        return num;
     }
 
     private countOccurrences(grid: string[][], char: string) {
-        return grid.flat().reduce((count, cell) => (cell === char ? count + 1 : count), 0)
+        return grid.flat().reduce((count, cell) => (cell === char ? count + 1 : count), 0);
     }
 
-    generateGrid(): string[][] {
-        return Array.from({ length: this.gridSize }, () =>
+    generateGrid(biasChar?: string): string[][] {
+        const grid = Array.from({ length: this.gridSize }, () =>
             Array.from({ length: this.gridSize }, () =>
                 // generate a random lowercase alphabetic character ('a' to 'z')
                 // ASCII code for 'a' is 97, and there are 26 letters in the alphabet.
@@ -19,6 +26,26 @@ export class GridService {
                 String.fromCharCode(97 + Math.floor(Math.random() * 26))
             )
         );
+
+        if (biasChar && this.isValidBiasChar(biasChar)) {
+            const totalCells = this.gridSize * this.gridSize;
+            const biasCells = Math.floor(totalCells * 0.2);
+            let placedCells = 0;
+
+            // Randomly place the biasChar in the grid
+            while (placedCells < biasCells) {
+                const row = Math.floor(Math.random() * this.gridSize);
+                const col = Math.floor(Math.random() * this.gridSize);
+
+                // Only place if the cell is not already the biasChar
+                if (grid[row][col] !== biasChar) {
+                    grid[row][col] = biasChar;
+                    placedCells++;
+                }
+            }
+        }
+
+        return grid;
     }
 
     computeCode(grid: string[][]): string {
