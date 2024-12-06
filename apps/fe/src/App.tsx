@@ -2,7 +2,7 @@ import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { GeneratorPage } from './pages/Generator';
 import { PaymentsPage } from './pages/Payments';
-import { Navigation } from './components/Navigation';
+import { Navigation } from './components';
 
 function App() {
   return (

@@ -3,9 +3,6 @@ export const PaymentsPage = () => {
     return (
         <div style={styles.page}>
             <h1 style={styles.heading}>Payments</h1>
-            <p style={styles.description}>
-                Welcome to the Payments page! Here, you can manage your transactions and view payment history.
-            </p>
         </div>
     );
 };
