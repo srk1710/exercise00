@@ -21,10 +21,4 @@ const styles = {
         color: "#333",
         marginBottom: "20px",
     },
-    description: {
-        fontSize: "18px",
-        color: "#555",
-        textAlign: "center" as const,
-        maxWidth: "600px",
-    },
 };

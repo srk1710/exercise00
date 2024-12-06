@@ -35,7 +35,6 @@ const styles = {
     inputWrapper: {
         display: "flex",
         flexDirection: "column" as const,
-        marginBottom: "10px",
     },
     label: {
         marginBottom: "5px",
