@@ -2,7 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import gridRouter from "./generator/routes/grid.router";
+import { GridRouter } from "./generator/routes/grid.router";
 
 const PORT = 3000;
 
@@ -13,8 +13,9 @@ app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use("/api/grid", gridRouter
-);
+const gridRouter = new GridRouter();
+app.use("/api", gridRouter.getRouter());
+
 
 app.listen(PORT, () => {
     console.log("Server is listening on port: ", PORT);

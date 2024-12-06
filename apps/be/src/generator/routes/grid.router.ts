@@ -1,8 +1,22 @@
 import { Router } from "express";
-import { getGrid } from "../controllers/grid.controller";
+import { GridController } from "../controllers/grid.controller";
 
-const gridRouter = Router();
+export class GridRouter {
+    private router: Router;
+    private gridController: GridController;
 
-gridRouter.get("/", getGrid);
+    constructor() {
+        this.router = Router();
+        this.gridController = new GridController();
+        this.initializeRoutes();
+    }
 
-export default gridRouter;
+    private initializeRoutes(): void {
+        this.router.get("/grid-code", this.gridController.getGridWithCode);
+        this.router.get("/grid", this.gridController.getGridOnly);
+    }
+
+    getRouter(): Router {
+        return this.router;
+    }
+}
