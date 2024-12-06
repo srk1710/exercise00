@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useGrid } from "../hooks/useGrid";
 
 export const GeneratorPage = () => {
-    const { fetchGridWithCode, fetchGrid } = useGrid();
+    const { fetchGrid } = useGrid();
     const [grid, setGrid] = useState<string[][] | null>(null);
     const [code, setCode] = useState<string | null>(null);
     const [isGenerating, setIsGenerating] = useState(false);
@@ -12,7 +12,7 @@ export const GeneratorPage = () => {
         let secondCounter = 0;
 
         if (isGenerating) {
-            fetchGridWithCode()
+            fetchGrid(true)
                 .then((data) => {
                     setGrid(data.grid);
                     setCode(data.code);
@@ -22,14 +22,14 @@ export const GeneratorPage = () => {
             interval = setInterval(() => {
                 secondCounter++;
                 if (secondCounter % 2 === 0) {
-                    fetchGridWithCode()
+                    fetchGrid(true)
                         .then((data) => {
                             setGrid(data.grid);
                             setCode(data.code);
                         })
                         .catch((error) => console.error(error));
                 } else {
-                    fetchGrid()
+                    fetchGrid(false)
                         .then((data) => {
                             setGrid(data.grid);
                         })

@@ -1,23 +1,10 @@
-
 export const useGrid = () => {
 
-    const fetchGridWithCode = async () => {
+    const fetchGrid = async (withCode: boolean = false) => {
         try {
-            const response = await fetch("http://localhost:3000/api/grid-code");
-            if (!response.ok) {
-                throw new Error("Failed to fetch grid and code");
-            }
-            const data = await response.json();
-            return data;
-        } catch (error) {
-            console.error("Error fetching grid and code:", error);
-            throw error;
-        }
-    };
-
-    const fetchGrid = async () => {
-        try {
-            const response = await fetch("http://localhost:3000/api/grid");
+            const response = await fetch(
+                `http://localhost:3000/api/grid?withCode=${withCode}`
+            );
             if (!response.ok) {
                 throw new Error("Failed to fetch grid");
             }
@@ -29,8 +16,5 @@ export const useGrid = () => {
         }
     };
 
-    return { fetchGridWithCode, fetchGrid };
+    return { fetchGrid };
 };
-
-
-

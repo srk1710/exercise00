@@ -8,14 +8,16 @@ export class GridController {
         this.gridService = new GridService();
     }
 
-    getGridWithCode = (req: Request, res: Response): void => {
+    getGrid = (req: Request, res: Response): void => {
         const grid = this.gridService.generateGrid();
-        const code = this.gridService.computeCode(grid);
-        res.json({ grid, code });
-    };
 
-    getGridOnly = (req: Request, res: Response): void => {
-        const grid = this.gridService.generateGrid();
-        res.json({ grid });
+        const withCode = req.query.withCode === 'true';
+
+        if (withCode) {
+            const code = this.gridService.computeCode(grid);
+            res.json({ grid, code });
+        } else {
+            res.json({ grid });
+        }
     };
 }

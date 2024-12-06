@@ -12,8 +12,7 @@ export class GridRouter {
     }
 
     private initializeRoutes(): void {
-        this.router.get("/grid-code", this.gridController.getGridWithCode);
-        this.router.get("/grid", this.gridController.getGridOnly);
+        this.router.get("/grid", this.gridController.getGrid);
     }
 
     getRouter(): Router {
