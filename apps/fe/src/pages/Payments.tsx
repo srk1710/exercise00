@@ -8,32 +8,33 @@ export const PaymentsPage = () => {
         fetchPayments();
     }, []);
 
+
     return (
         <div style={styles.page}>
-
             {loading && <p>Loading...</p>}
             {error && <p style={styles.error}>{error}</p>}
-
-            <table style={styles.table}>
-                <thead>
-                    <tr>
-                        <th style={styles.nameColumn}>Name</th>
-                        <th style={styles.rightAligned}>Amount</th>
-                        <th style={styles.rightAligned}>Code</th>
-                        <th style={styles.rightAligned}>Grid Size</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {payments.map((payment, index) => (
-                        <tr key={index}>
-                            <td style={styles.nameColumn}>{payment.name}</td>
-                            <td style={styles.rightAligned}>{payment.amount}</td>
-                            <td style={styles.rightAligned}>{payment.code}</td>
-                            <td style={styles.rightAligned}>{payment.grid.flat().length}</td>
+            {!loading && !error &&
+                <table style={styles.table}>
+                    <thead>
+                        <tr>
+                            <th style={styles.nameColumn}>Name</th>
+                            <th style={styles.fixedWidth}>Amount</th>
+                            <th style={styles.fixedWidth}>Code</th>
+                            <th style={styles.fixedWidth}>Grid Size</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {payments.map((payment, index) => (
+                            <tr key={index}>
+                                <td style={styles.nameColumn}>{payment.name}</td>
+                                <td style={styles.fixedWidth}>{payment.amount}</td>
+                                <td style={styles.fixedWidth}>{payment.code}</td>
+                                <td style={styles.fixedWidth}>{payment.grid.flat().length}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            }
         </div>
     );
 };
@@ -46,11 +47,6 @@ const styles = {
         height: "100vh",
         backgroundColor: "#f4f4f9",
         padding: "20px",
-    },
-    heading: {
-        fontSize: "32px",
-        color: "#333",
-        marginBottom: "20px",
     },
     error: {
         color: "red",
@@ -66,13 +62,13 @@ const styles = {
     nameColumn: {
         textAlign: "left" as const,
         padding: "12px",
-        fontWeight: "bold" as const,
         width: "50%",
-        borderBottom: "1px solid #ddd",
+        border: "1px solid #ddd",
     },
-    rightAligned: {
-        textAlign: "right" as const,
+    fixedWidth: {
+        textAlign: "center" as const,
         padding: "12px",
-        borderBottom: "1px solid #ddd",
+        width: "10%",
+        border: "1px solid #ddd",
     },
 };
