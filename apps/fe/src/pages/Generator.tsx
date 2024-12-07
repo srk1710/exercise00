@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useGrid } from "../hooks/useGrid";
+import { useGrid } from "../hooks/useGrid/useGrid";
 import { CodeDisplay, InputField } from "../components";
 
 export const GeneratorPage = () => {
