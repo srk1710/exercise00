@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { useGrid } from "../hooks/useGrid";
+import { useGrid } from "../hooks/useGrid/useGrid";
+import { CodeDisplay, InputField } from "../components";
 
 export const GeneratorPage = () => {
     const { fetchGrid } = useGrid();
@@ -76,18 +77,14 @@ export const GeneratorPage = () => {
         <div style={styles.page}>
             <div style={styles.gridWrapper}>
                 <div style={styles.controls}>
-                    <div style={styles.inputWrapper}>
-                        <label style={styles.label}>Character:</label>
-                        <input
-                            type="text"
-                            value={biasChar}
-                            maxLength={1}
-                            onChange={handleBiasCharChange}
-                            placeholder="Character"
-                            style={styles.input}
-                            disabled={isInputLocked}
-                        />
-                    </div>
+                    <InputField
+                        label="Character"
+                        value={biasChar}
+                        onChange={handleBiasCharChange}
+                        maxLength={1}
+                        placeholder="Character"
+                        disabled={isInputLocked}
+                    />
 
                     <button style={styles.button} onClick={() => setIsGenerating(!isGenerating)}>
                         {isGenerating ? "Stop Generating" : "Generate 2D Grid"}
@@ -109,9 +106,7 @@ export const GeneratorPage = () => {
                         </tbody>
                     </table>
                 </div>
-                <div style={styles.codeDisplay}>
-                    {code ? `Code: ${code}` : "Code: --"}
-                </div>
+                <CodeDisplay code={code} />
             </div>
         </div>
     );
@@ -149,23 +144,11 @@ const styles = {
         border: "none",
         borderRadius: "5px",
     },
-    inputWrapper: {
-        display: "flex",
-        flexDirection: "column" as const,
-    },
-    label: {
-        marginBottom: "5px",
-        fontSize: "16px",
-    },
-    input: {
-        padding: "5px 10px",
-        fontSize: "16px",
-        width: "100px",
-    },
     gridContainer: {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        marginBottom: "24px"
     },
     grid: {
         borderCollapse: "collapse" as const,
@@ -180,12 +163,6 @@ const styles = {
         verticalAlign: "middle" as const,
         fontSize: "20px",
         fontFamily: "monospace",
-    },
-    codeDisplay: {
-        marginTop: "20px",
-        fontSize: "18px",
-        fontWeight: "bold",
-        color: "#333",
     },
 };
 
