@@ -148,6 +148,7 @@ const styles = {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        marginBottom: "24px"
     },
     grid: {
         borderCollapse: "collapse" as const,

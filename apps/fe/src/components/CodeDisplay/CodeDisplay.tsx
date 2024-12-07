@@ -19,7 +19,6 @@ const styles = {
         display: "flex",
         flexDirection: "column" as const,
         alignItems: "center",
-        marginTop: "20px",
     },
     liveLabel: {
         backgroundColor: "#ff4d4f",
