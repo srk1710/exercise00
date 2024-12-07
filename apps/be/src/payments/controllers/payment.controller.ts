@@ -23,8 +23,23 @@ export class PaymentController {
         try {
             const { name, amount, code, grid } = req.body;
 
-            if (!name || !amount || !code || !grid) {
-                res.status(400).json({ message: "Missing required fields" });
+            if (!name || typeof name !== "string" || name.trim() === "") {
+                res.status(400).json({ message: "Invalid or missing 'name' field" });
+                return;
+            }
+
+            if (!amount || typeof amount !== "number" || amount <= 0) {
+                res.status(400).json({ message: "Invalid or missing 'amount' field. It should be a positive number." });
+                return;
+            }
+
+            if (!code || typeof code !== "number" || amount <= 0) {
+                res.status(400).json({ message: "Invalid or missing 'code' field. It should be a positive number." });
+                return;
+            }
+
+            if (!Array.isArray(grid) || grid.length === 0 || !grid.every(row => Array.isArray(row))) {
+                res.status(400).json({ message: "Invalid or missing 'grid' field. It should be a non-empty 2D array." });
                 return;
             }
 
@@ -35,4 +50,5 @@ export class PaymentController {
             res.status(500).json({ message: "Failed to create payment", error });
         }
     }
+
 }

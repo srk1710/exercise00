@@ -40,6 +40,7 @@ export const usePayments = (): UsePaymentsResult => {
     const createPayment = async (payment: Payment) => {
         setLoading(true);
         setError(null);
+
         try {
             const response = await fetch("http://localhost:3000/api/payments", {
                 method: "POST",
@@ -48,9 +49,12 @@ export const usePayments = (): UsePaymentsResult => {
                 },
                 body: JSON.stringify(payment),
             });
+
             if (!response.ok) {
-                throw new Error(`Error creating payment: ${response.statusText}`);
+                const errorData = await response.json();
+                throw new Error(errorData.message || `Error creating payment: ${response.statusText}`);
             }
+
             await fetchPayments();
         } catch (err) {
             setError((err as Error).message);

@@ -78,7 +78,7 @@ export const GeneratorPage = () => {
             <div style={styles.gridWrapper}>
                 <div style={styles.controls}>
                     <InputField
-                        label="Character:"
+                        label="Character"
                         value={biasChar}
                         onChange={handleBiasCharChange}
                         maxLength={1}
