@@ -14,7 +14,6 @@ export const initWebSocketServer = (server: http.Server) => {
     const wss = new WebSocketServer({ noServer: true });
 
     server.on("upgrade", (request, socket, head) => {
-        console.log("Upgrade event triggered");
         const url = new URL(request.url || "", `http://${request.headers.host}`);
         const token = url.searchParams.get("token");
 
@@ -33,8 +32,6 @@ export const initWebSocketServer = (server: http.Server) => {
                 socket.destroy();
                 return;
             }
-
-            console.log("JWT verified, proceeding to upgrade");
 
             wss.handleUpgrade(request, socket, head, (ws) => {
                 (ws as CustomWebSocket).user = decoded as JwtPayload;
