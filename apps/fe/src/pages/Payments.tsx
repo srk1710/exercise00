@@ -2,14 +2,19 @@ import { useEffect, useState } from "react";
 import { usePayments } from "../hooks/usePayments/usePayments";
 import { useGrid } from "../hooks/useGrid/useGrid";
 import { CodeDisplay, InputField } from "../components";
+import { useWebSocket } from "../hooks/useWebSockets/useWebSocket";
 
 export const PaymentsPage = () => {
     const { payments, loading, error, fetchPayments, createPayment } = usePayments();
     const { fetchGrid } = useGrid();
+    const { messages, isConnected } = useWebSocket();
+
     const [grid, setGrid] = useState<string[][] | null>(null);
     const [code, setCode] = useState<string | null>(null);
     const [paymentName, setPaymentName] = useState<string>("");
     const [amount, setAmount] = useState<string>("");
+
+    const [isUpdating, setIsUpdating] = useState(false);
 
     useEffect(() => {
         let interval: NodeJS.Timeout | null = null;
@@ -37,6 +42,13 @@ export const PaymentsPage = () => {
         };
     }, []);
 
+    useEffect(() => {
+        if (messages.length > 0) {
+            setIsUpdating(true);
+            fetchPayments().finally(() => setIsUpdating(false));
+        }
+    }, [messages]);
+
     const handleAddPayment = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!grid) return;
@@ -46,7 +58,7 @@ export const PaymentsPage = () => {
             amount: Number(amount),
             code: Number(code),
             grid
-        })
+        });
 
         setPaymentName("");
         setAmount("");
@@ -81,6 +93,7 @@ export const PaymentsPage = () => {
             </form>
 
             {loading && <p>Loading...</p>}
+            {isUpdating && <p>Updating payments...</p>}
             {!loading && (
                 <table style={styles.table}>
                     <thead>
@@ -163,5 +176,10 @@ const styles = {
         padding: "12px",
         width: "10%",
         border: "1px solid #ddd",
+    },
+    connectionStatus: {
+        marginBottom: "10px",
+        fontSize: "14px",
+        color: "#555",
     },
 };

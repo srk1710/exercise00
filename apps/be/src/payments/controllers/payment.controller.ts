@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { PaymentService } from "../services/payment.service";
+import { broadcastNewPayment } from "../../websockets/events";
 
 
 export class PaymentController {
@@ -44,6 +45,8 @@ export class PaymentController {
             }
 
             const payment = await this.paymentService.createPayment({ name, amount, code, grid });
+
+            broadcastNewPayment(payment);
             res.status(201).json(payment);
         } catch (error) {
             console.error(error);
