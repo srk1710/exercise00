@@ -33,8 +33,7 @@ jobs:
         run: npm run build
 
       - name: Deploy to production
-        working-directory: ./apps/be
         uses: johnbeynon/render-deploy-action@v0.0.8
         with:
-          MONGODB_URL: ${{ secrets.MONGODB_URL }} 
+          mongodb_url: ${{ secrets.MONGODB_URL }}
           wait_deploy: true
