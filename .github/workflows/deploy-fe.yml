@@ -8,7 +8,7 @@ on:
       - 'apps/fe/**' 
 
 jobs:
-  deploy:
+  deploy_fe:
     runs-on: ubuntu-latest
 
     steps:

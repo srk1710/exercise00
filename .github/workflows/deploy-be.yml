@@ -8,7 +8,7 @@ on:
       - 'apps/be/**' 
 
 jobs:
-  deploy:
+  deploy_be:
     runs-on: ubuntu-latest
 
     steps:
