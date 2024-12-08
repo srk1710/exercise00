@@ -34,5 +34,7 @@ jobs:
 
       - name: Deploy to production
         working-directory: ./apps/be
-        run: |
-          echo "Deploying backend to production"
+        uses: johnbeynon/render-deploy-action@v0.0.8
+        with:
+          MONGODB_URL: ${{ secrets.MONGODB_URL }} 
+          wait_deploy: true
