@@ -75,6 +75,7 @@ export const initWebSocketServer = (server: http.Server) => {
     }, 30000);
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const broadcast = (data: any) => {
     clients.forEach((client) => {
         if (client.readyState === BaseWebSocket.OPEN) {
