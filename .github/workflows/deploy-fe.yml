@@ -1,11 +1,11 @@
-name: Deploy Backend on Production
+name: Deploy Frontend on Production
 
 on:
   push:
     branches:
       - production
     paths:
-      - 'apps/be/**' 
+      - 'apps/fe/**' 
 
 jobs:
   deploy:
@@ -15,24 +15,24 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
+      - name: Set up Node.js (LTS)
         uses: actions/setup-node@v3
         with:
           node-version: 'lts/*'
 
       - name: Install dependencies
-        working-directory: ./apps/be
+        working-directory: ./apps/fe
         run: npm install
 
       - name: Run lint
-        working-directory: ./apps/be
+        working-directory: ./apps/fe
         run: npm run lint
 
-      - name: Build the backend app
-        working-directory: ./apps/be
+      - name: Build the frontend app
+        working-directory: ./apps/fe
         run: npm run build
 
       - name: Deploy to production
-        working-directory: ./apps/be
+        working-directory: ./apps/fe
         run: |
-          echo "Deploying backend to production"
+          echo "Deploying frontend to production"
