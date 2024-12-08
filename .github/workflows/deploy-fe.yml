@@ -28,6 +28,10 @@ jobs:
         working-directory: ./apps/fe
         run: npm run lint
 
+      - name: Run tests
+        working-directory: ./apps/fe
+        run: npm run test -- --ci --coverage
+
       - name: Build the frontend app
         working-directory: ./apps/fe
         run: CI=false npm run build
