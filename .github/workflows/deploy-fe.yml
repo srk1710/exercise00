@@ -1,0 +1,42 @@
+name: Deploy Frontend on Production
+
+on:
+  push:
+    branches:
+      - production
+    paths:
+      - 'apps/fe/**' 
+
+jobs:
+  deploy_fe:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js (LTS)
+        uses: actions/setup-node@v3
+        with:
+          node-version: 'lts/*'
+
+      - name: Install dependencies
+        working-directory: ./apps/fe
+        run: npm install
+
+      - name: Run lint
+        working-directory: ./apps/fe
+        run: npm run lint
+
+      - name: Run tests
+        working-directory: ./apps/fe
+        run: npm run test -- --ci --coverage
+
+      - name: Build the frontend app
+        working-directory: ./apps/fe
+        run: CI=false npm run build
+
+      - name: Deploy to production
+        working-directory: ./apps/fe
+        run: |
+          echo "Deploying frontend to production"

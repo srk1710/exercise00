@@ -1,0 +1,39 @@
+name: Deploy Backend on Production
+
+on:
+  push:
+    branches:
+      - production
+    paths:
+      - 'apps/be/**' 
+
+jobs:
+  deploy_be:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 'lts/*'
+
+      - name: Install dependencies
+        working-directory: ./apps/be
+        run: npm install
+
+      - name: Run lint
+        working-directory: ./apps/be
+        run: npm run lint
+
+      - name: Build the backend app
+        working-directory: ./apps/be
+        run: npm run build
+
+      - name: Deploy to production
+        uses: johnbeynon/render-deploy-action@v0.0.8
+        with:
+          mongodb_url: ${{ secrets.MONGODB_URL }}
+          wait_deploy: true
