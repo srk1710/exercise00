@@ -36,16 +36,14 @@ mongoose
         process.exit();
     });
 
-
-const server = http.createServer(app);
-initWebSocketServer(server);
-
 const gridRouter = new GridRouter();
 app.use("/api", gridRouter.getRouter());
 
 const paymentRouter = new PaymentRouter();
 app.use("/api", paymentRouter.getRouter());
 
+const server = http.createServer(app);
+initWebSocketServer(server);
 
 server.listen(PORT, () => {
     console.log("Server is listening on port: ", PORT);

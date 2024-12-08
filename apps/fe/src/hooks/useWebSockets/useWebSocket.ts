@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 const WEBSOCKET_URL = "ws://localhost:3000";
+const JWT_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9obiBEb2UifQ.tKYAMd3Mh9Wnq_eTNuDc8is95pZwsxzY7yu-iJQ4A1g";
 
 export const useWebSocket = () => {
     const [messages, setMessages] = useState<any[]>([]);
@@ -8,7 +9,8 @@ export const useWebSocket = () => {
     const ws = useRef<WebSocket | null>(null);
 
     useEffect(() => {
-        ws.current = new WebSocket(WEBSOCKET_URL);
+        const urlWithToken = `${WEBSOCKET_URL}?token=${JWT_TOKEN}`;
+        ws.current = new WebSocket(urlWithToken);
 
         ws.current.onopen = () => {
             console.log("WebSocket connected");

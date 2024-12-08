@@ -7,7 +7,7 @@ import { useWebSocket } from "../hooks/useWebSockets/useWebSocket";
 export const PaymentsPage = () => {
     const { payments, loading, error, fetchPayments, createPayment } = usePayments();
     const { fetchGrid } = useGrid();
-    const { messages, isConnected } = useWebSocket();
+    const { messages } = useWebSocket();
 
     const [grid, setGrid] = useState<string[][] | null>(null);
     const [code, setCode] = useState<string | null>(null);
