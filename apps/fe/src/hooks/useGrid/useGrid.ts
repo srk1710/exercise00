@@ -1,4 +1,4 @@
-const apiUrl = process.env.REACT_APP_API_URL;
+const apiUrl = process.env.REACT_APP_API_URL ?? 'http://localhost:3000/api';
 
 export const useGrid = () => {
     const fetchGrid = async (withCode: boolean = false, biasChar?: string) => {
@@ -9,7 +9,7 @@ export const useGrid = () => {
                 query.append("biasChar", biasChar);
             }
 
-            const response = await fetch(`${apiUrl}/api/grid?${query.toString()}`);
+            const response = await fetch(`${apiUrl}/grid?${query.toString()}`);
             if (!response.ok) {
                 throw new Error("Failed to fetch grid");
             }

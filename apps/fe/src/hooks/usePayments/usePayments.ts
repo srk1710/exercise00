@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const apiUrl = process.env.REACT_APP_API_URL;
+const apiUrl = process.env.REACT_APP_API_URL ?? 'http://localhost:3000/api';
 
 type Payment = {
     name: string;
@@ -26,7 +26,7 @@ export const usePayments = (): UsePaymentsResult => {
         setLoading(true);
         setError(null);
         try {
-            const response = await fetch(`${apiUrl}/api/payments`);
+            const response = await fetch(`${apiUrl}/payments`);
             if (!response.ok) {
                 throw new Error(`Error fetching payments: ${response.statusText}`);
             }
@@ -44,7 +44,7 @@ export const usePayments = (): UsePaymentsResult => {
         setError(null);
 
         try {
-            const response = await fetch(`${apiUrl}/api/payments`, {
+            const response = await fetch(`${apiUrl}/payments`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
