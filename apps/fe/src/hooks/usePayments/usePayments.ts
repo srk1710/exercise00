@@ -16,6 +16,8 @@ type UsePaymentsResult = {
 }
 
 export const usePayments = (): UsePaymentsResult => {
+    const apiUrl = 'http://localhost:3000/api';
+
     const [payments, setPayments] = useState<Payment[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
@@ -24,7 +26,7 @@ export const usePayments = (): UsePaymentsResult => {
         setLoading(true);
         setError(null);
         try {
-            const response = await fetch("http://localhost:3000/api/payments");
+            const response = await fetch(`${apiUrl}/payments`);
             if (!response.ok) {
                 throw new Error(`Error fetching payments: ${response.statusText}`);
             }
@@ -42,7 +44,7 @@ export const usePayments = (): UsePaymentsResult => {
         setError(null);
 
         try {
-            const response = await fetch("http://localhost:3000/api/payments", {
+            const response = await fetch(`${apiUrl}/payments`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

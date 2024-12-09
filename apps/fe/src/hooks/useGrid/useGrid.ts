@@ -1,4 +1,6 @@
 export const useGrid = () => {
+    const apiUrl = 'http://localhost:3000/api';
+
     const fetchGrid = async (withCode: boolean = false, biasChar?: string) => {
         try {
             const query = new URLSearchParams();
@@ -7,7 +9,7 @@ export const useGrid = () => {
                 query.append("biasChar", biasChar);
             }
 
-            const response = await fetch(`http://localhost:3000/api/grid?${query.toString()}`);
+            const response = await fetch(`${apiUrl}/grid?${query.toString()}`);
             if (!response.ok) {
                 throw new Error("Failed to fetch grid");
             }
