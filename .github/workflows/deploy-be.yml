@@ -32,10 +32,22 @@ jobs:
         working-directory: ./apps/be
         run: npm run build
 
+      - name: Clean up Docker cache
+        run: docker system prune -af || true
+
       - name: Build Docker image
         working-directory: ./apps/be
         run: docker build -t backend-app:latest .
 
+      - name: List Docker images
+        run: docker images
+
       - name: Deploy Docker container
         run: |
-          docker run -d --name backend-container -p 3000:3000 -e MONGODB_URL=${{ secrets.MONGODB_URL }} backend-app
+          docker stop backend-container || true
+          docker rm backend-container || true
+          docker run -d \
+            --name backend-container \
+            -p 3000:3000 \
+            -e MONGODB_URL=${{ secrets.MONGODB_URL }} \
+            backend-app:latest
