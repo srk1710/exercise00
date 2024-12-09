@@ -5,11 +5,11 @@ on:
     branches:
       - production
     paths:
-      - 'apps/be/**' 
+      - 'apps/be/**'
 
 jobs:
   deploy_be:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted 
 
     steps:
       - name: Checkout code
@@ -32,8 +32,7 @@ jobs:
         working-directory: ./apps/be
         run: npm run build
 
-      - name: Deploy to production
-        uses: johnbeynon/render-deploy-action@v0.0.8
-        with:
-          mongodb_url: ${{ secrets.MONGODB_URL }}
-          wait_deploy: true
+      - name: Deploy locally to production
+        working-directory: ./apps/be
+        run: |
+          npm start
