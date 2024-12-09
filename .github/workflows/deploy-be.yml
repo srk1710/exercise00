@@ -32,9 +32,20 @@ jobs:
         working-directory: ./apps/be
         run: npm run build
 
-      - name: Deploy to production
+      - name: Build Docker image
         working-directory: ./apps/be
-        env:
-          MONGODB_URL: ${{ secrets.MONGODB_URL }}
         run: |
-          npm start &
+          docker build -t backend-app:latest .
+
+      - name: Stop and remove old container
+        run: |
+          docker stop backend-container || true
+          docker rm backend-container || true
+
+      - name: Deploy Docker container
+        run: |
+          docker run -d \
+            --name backend-container \
+            -p 3000:3000 \
+            -e MONGODB_URL='${{ secrets.MONGODB_URL }}' \
+            backend-app:latest
