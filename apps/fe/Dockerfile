@@ -4,6 +4,12 @@ FROM node:lts
 # Set working directory
 WORKDIR /usr/src/app
 
+# Define build argument for REACT_APP_API_URL
+ARG REACT_APP_API_URL
+
+# Set the environment variable for React build process
+ENV REACT_APP_API_URL=$REACT_APP_API_URL
+
 # Copy package files and install dependencies
 COPY package*.json ./
 RUN npm install
