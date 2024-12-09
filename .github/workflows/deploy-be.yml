@@ -36,7 +36,6 @@ jobs:
         working-directory: ./apps/be
         run: |
           docker build -t backend-app:latest .
-          sleep 10
 
       - name: Stop and remove old container
         run: |
