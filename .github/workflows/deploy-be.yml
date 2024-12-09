@@ -37,4 +37,4 @@ jobs:
         env:
           MONGODB_URL: ${{ secrets.MONGODB_URL }}
         run: |
-          npm start &
+          nohup npm start
