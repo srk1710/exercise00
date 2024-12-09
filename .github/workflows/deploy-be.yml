@@ -38,3 +38,4 @@ jobs:
           MONGODB_URL: ${{ secrets.MONGODB_URL }}
         run: |
           nohup npm start > server.log 2>&1 &
+          disown
