@@ -16,7 +16,7 @@ type UsePaymentsResult = {
 }
 
 export const usePayments = (): UsePaymentsResult => {
-    const apiUrl = process.env.REACT_APP_API_URL ?? 'http://localhost:3000/api';
+    const apiUrl = 'http://localhost:3000/api';
 
     const [payments, setPayments] = useState<Payment[]>([]);
     const [loading, setLoading] = useState<boolean>(false);

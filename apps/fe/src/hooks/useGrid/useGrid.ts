@@ -2,7 +2,6 @@ export const useGrid = () => {
     const apiUrl = 'http://localhost:3000/api';
 
     const fetchGrid = async (withCode: boolean = false, biasChar?: string) => {
-        console.log('apiUrl', apiUrl)
         try {
             const query = new URLSearchParams();
             query.append("withCode", String(withCode));
