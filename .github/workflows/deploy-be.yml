@@ -32,9 +32,9 @@ jobs:
         working-directory: ./apps/be
         run: npm run build
 
-      - name: Deploy locally to production
+      - name: Deploy to production
         working-directory: ./apps/be
         env:
           MONGODB_URL: ${{ secrets.MONGODB_URL }}
         run: |
-          npm start
+          npm start &
