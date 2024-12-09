@@ -34,6 +34,7 @@ jobs:
 
       - name: Deploy locally to production
         working-directory: ./apps/be
+        env:
+          MONGODB_URL: ${{ secrets.MONGODB_URL }}
         run: |
-          export MONGODB_URL=${{ secrets.MONGODB_URL }}
           npm start
