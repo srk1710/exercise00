@@ -36,8 +36,9 @@ jobs:
         working-directory: ./apps/be
         run: docker build -t backend-app:latest .
 
+      - name: List Docker images
+        run: docker images
+
       - name: Deploy Docker container
         run: |
-          docker stop backend-container || true
-          docker rm backend-container || true
           docker run -d --name backend-container -p 3000:3000 -e MONGODB_URL=${{ secrets.MONGODB_URL }} backend-app:latest
