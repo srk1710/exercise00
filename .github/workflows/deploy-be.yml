@@ -9,7 +9,7 @@ on:
 
 jobs:
   deploy_be:
-    runs-on: self-hosted  
+    runs-on: self-hosted 
 
     steps:
       - name: Checkout code
@@ -34,7 +34,7 @@ jobs:
 
       - name: Build Docker image
         working-directory: ./apps/be
-        run: docker build -t backend-app:latest .
+        run: docker build -t backend-app:latest ./apps/be 
 
       - name: Stop and remove old container
         run: |
@@ -47,4 +47,4 @@ jobs:
             --name backend-container \
             -p 3000:3000 \
             -e MONGODB_URL=${{ secrets.MONGODB_URL }} \
-            backend-app:latest  # Ensure the correct image name here
+            backend-app:latest
