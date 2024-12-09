@@ -9,7 +9,7 @@ on:
 
 jobs:
   deploy_be:
-    runs-on: self-hosted 
+    runs-on: self-hosted
 
     steps:
       - name: Checkout code
@@ -32,10 +32,20 @@ jobs:
         working-directory: ./apps/be
         run: npm run build
 
-      - name: Deploy to production
+      - name: Build Docker image
         working-directory: ./apps/be
-        env:
-          MONGODB_URL: ${{ secrets.MONGODB_URL }}
         run: |
-          nohup npm start > server.log 2>&1 &
-          disown
+          docker build -t backend-app:latest .
+
+      - name: Stop existing container (if running)
+        run: |
+          docker stop backend-container || true
+          docker rm backend-container || true
+
+      - name: Run Docker container
+        run: |
+          docker run -d \
+            --name backend-container \
+            -p 3000:3000 \
+            -e MONGODB_URL=${{ secrets.MONGODB_URL }} \
+            backend-app:latest
