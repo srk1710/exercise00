@@ -2,6 +2,7 @@ const apiUrl = process.env.REACT_APP_API_URL ?? 'http://localhost:3000/api';
 
 export const useGrid = () => {
     const fetchGrid = async (withCode: boolean = false, biasChar?: string) => {
+        console.log('apiUrl', apiUrl)
         try {
             const query = new URLSearchParams();
             query.append("withCode", String(withCode));
