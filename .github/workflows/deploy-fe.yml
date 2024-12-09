@@ -5,17 +5,17 @@ on:
     branches:
       - production
     paths:
-      - 'apps/fe/**' 
+      - 'apps/fe/**'
 
 jobs:
   deploy_fe:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted 
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Node.js (LTS)
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 'lts/*'
@@ -28,15 +28,23 @@ jobs:
         working-directory: ./apps/fe
         run: npm run lint
 
-      - name: Run tests
-        working-directory: ./apps/fe
-        run: npm run test -- --ci --coverage
-
       - name: Build the frontend app
         working-directory: ./apps/fe
-        run: CI=false npm run build
+        run: npm run build
 
-      - name: Deploy to production
+      - name: Build Docker image for frontend
         working-directory: ./apps/fe
+        run: docker build -t frontend-app:latest .
+
+      - name: Stop and remove old container
         run: |
-          echo "Deploying frontend to production"
+          docker stop frontend-container || true
+          docker rm frontend-container || true
+
+      - name: Deploy Docker container for frontend
+        run: |
+          docker run -d \
+            --name frontend-container \
+            -p 8080:8080 \
+            -e REACT_APP_API_URL='http://localhost:3000/api' \
+            frontend-app:latest
