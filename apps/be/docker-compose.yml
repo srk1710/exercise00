@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./apps/be 
+    ports:
+      - "3000:3000"  
+    environment:
+      MONGODB_URL: ${MONGODB_URL} 
+    volumes:
+      - ./apps/be:/usr/src/app  
+    restart: always 
+
+networks:
+  backend_network:
+    driver: bridge
