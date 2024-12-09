@@ -1,4 +1,4 @@
-# Use official Node.js image as the base image
+# Base image
 FROM node:lts
 
 # Set working directory
@@ -14,8 +14,11 @@ ENV REACT_APP_API_URL=$REACT_APP_API_URL
 COPY package*.json ./
 RUN npm install
 
-# Copy the build directory into the container
-COPY ./build ./build
+# Copy the source code
+COPY . .
+
+# Build the React app
+RUN npm run build
 
 # Expose the port your app runs on
 EXPOSE 8080
