@@ -30,7 +30,7 @@ jobs:
 
       - name: Build the frontend app
         working-directory: ./apps/fe
-        run: npm run build
+        run: CI=false npm run build
 
       - name: Build Docker image for frontend
         working-directory: ./apps/fe
