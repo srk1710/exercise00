@@ -40,8 +40,4 @@ jobs:
         run: |
           docker stop backend-container || true
           docker rm backend-container || true
-          docker run -d \
-            --name backend-container \
-            -p 3000:3000 \
-            -e MONGODB_URL=${{ secrets.MONGODB_URL }} \
-            backend-app:latest
+          docker run -d --name backend-container -p 3000:3000 -e MONGODB_URL=${{ secrets.MONGODB_URL }} backend-app:latest
