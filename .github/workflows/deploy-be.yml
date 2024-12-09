@@ -48,5 +48,5 @@ jobs:
           docker run -d \
             --name backend-container \
             -p 3000:3000 \
-            -e MONGODB_URL=${{ secrets.MONGODB_URL }} \
+            -e MONGODB_URL='${{ secrets.MONGODB_URL }}' \
             backend-app:latest
