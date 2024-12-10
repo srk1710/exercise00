@@ -44,7 +44,7 @@ This project is a web application with two apps featuring a grid generator, paym
 
 - **`npm install`**: Install dependencies.  
 - **`npm run lint`**: Lint the codebase.
-- - **`npm start`**: Start the frontend development server.  
+- **`npm start`**: Start the frontend development server.  
 - **`npm run build`**: Build the React app for production.  
 
 ---
