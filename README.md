@@ -91,11 +91,11 @@ This project is a web application with two apps featuring a grid generator, paym
 
 The project follows a structured branch schema for feature development and deployment.
 
-- **`main`**: The stable version of the codebase.  
-- **`feat/generator`**: Implements the grid generator feature.  
-- **`feat/payments`**: Adds payment management functionality.  
-- **`feat/real-time-sync`**: Introduces real-time updates with WebSockets.  
-- **`feat/operations`**: Combines all features and includes CI/CD workflows.  
+- **`main`**: The stable version of the codebase.
+- **`feat/generator`**: Implements the grid generator feature [Pull Request](https://github.com/srk1710/exercise00/pull/1).  
+- **`feat/payments`**: Adds payment management functionality [Pull Request](https://github.com/srk1710/exercise00/pull/2).  
+- **`feat/real-time-sync`**: Introduces real-time updates with WebSockets [Pull Request](https://github.com/srk1710/exercise00/pull/3).  
+- **`feat/operations`**: Combines all features and includes CI/CD workflows [Pull Request](https://github.com/srk1710/exercise00/pull/4).  
 
 ### Latest Version
 
