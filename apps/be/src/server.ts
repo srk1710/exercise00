@@ -1,3 +1,4 @@
+import http from "http";
 import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
@@ -6,6 +7,7 @@ import { GridRouter } from "./generator/routes/grid.router";
 import { PaymentRouter } from "./payments/routes/payment.route";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import { initWebSocketServer } from "./websockets/websocketServer";
 
 const PORT = 3000;
 
@@ -40,7 +42,9 @@ app.use("/api", gridRouter.getRouter());
 const paymentRouter = new PaymentRouter();
 app.use("/api", paymentRouter.getRouter());
 
+const server = http.createServer(app);
+initWebSocketServer(server);
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
     console.log("Server is listening on port: ", PORT);
 });
