@@ -4,7 +4,7 @@ const WEBSOCKET_URL = "ws://localhost:3000";
 const JWT_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9obiBEb2UifQ.tKYAMd3Mh9Wnq_eTNuDc8is95pZwsxzY7yu-iJQ4A1g";
 
 export const useWebSocket = () => {
-    const [messages, setMessages] = useState<any[]>([]);
+    const [messages, setMessages] = useState<string[]>([]);
     const [isConnected, setIsConnected] = useState(false);
     const ws = useRef<WebSocket | null>(null);
 

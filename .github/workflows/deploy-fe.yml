@@ -1,0 +1,50 @@
+name: Deploy Frontend on Production
+
+on:
+  push:
+    branches:
+      - production
+    paths:
+      - 'apps/fe/**'
+
+jobs:
+  deploy_fe:
+    runs-on: self-hosted 
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 'lts/*'
+
+      - name: Install dependencies
+        working-directory: ./apps/fe
+        run: npm install
+
+      - name: Run lint
+        working-directory: ./apps/fe
+        run: npm run lint
+
+      - name: Build the frontend app
+        working-directory: ./apps/fe
+        run: CI=false npm run build
+
+      - name: Build Docker image for frontend
+        working-directory: ./apps/fe
+        run: docker build -t frontend-app:latest .
+
+      - name: Stop and remove old container
+        run: |
+          docker stop frontend-container || true
+          docker rm frontend-container || true
+
+      - name: Deploy Docker container for frontend
+        run: |
+          docker run -d \
+            --name frontend-container \
+            -p 8080:8080 \
+            -e REACT_APP_API_URL='http://localhost:3000/api' \
+            frontend-app:latest

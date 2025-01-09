@@ -4,6 +4,8 @@ import { GeneratorPage } from './pages/Generator';
 import { PaymentsPage } from './pages/Payments';
 import { Navigation } from './components';
 
+// dummy
+
 function App() {
   return (
     <Router>
